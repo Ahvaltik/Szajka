@@ -23,6 +23,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
 import pl.edu.agh.szia.pa.model.address.Address;
+import pl.edu.agh.szia.pa.model.address.Town;
 
 
 public class PoliceAssistApplication extends Application {
@@ -58,13 +59,7 @@ public class PoliceAssistApplication extends Application {
             
             Transaction t = s.getTransaction();
             t.begin();
-            s.persist(a);
-            t.commit();
-          
-            
-            t = s.getTransaction();
-            t.begin();
-            System.out.println(s.createCriteria(Address.class).list());
+            System.out.println(s.createCriteria(Town.class).list());
             t.commit();
             
             s.close();
