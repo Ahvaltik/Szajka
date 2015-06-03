@@ -163,7 +163,7 @@ public class MainController implements Initializable {
                {
                    Address a = c.getLocation();
                    String add = a.getTown().getName()+", "+a.getStreet()+" "+a.getHouse();
-                   String name = a.getTown().getName()+"\n"+a.getStreet()+"\n"+a.getHouse();
+                   String name = a.getTown().getName()+" "+a.getStreet()+" "+a.getHouse();
                    webView.getEngine().executeScript("document.markLocation(\""+add+"\",\""+name+"\")");
                }
             }
