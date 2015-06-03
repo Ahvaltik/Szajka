@@ -36,6 +36,20 @@ public class Address {
     public int getID(){
         return id;
     }
+
+    public Address() {
+    }
+
+    
+    
+    public Address(Town town, String street, String house) {
+        this.town = town;
+        this.street = street;
+        this.house = house;
+    }
+    
+    
+    
     public void setID(int id){
         this.id = id;
     }

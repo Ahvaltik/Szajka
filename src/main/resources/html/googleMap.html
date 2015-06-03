@@ -24,6 +24,7 @@
  
     document.geocoder = new google.maps.Geocoder();
     document.map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+    document.markers = [];
  
     document.zoomIn = function zoomIn() {
         var zoomLevel = document.map.getZoom();
@@ -57,6 +58,31 @@
           }
         });
     }
+   
+    document.clearMarkers = function(){
+        
+        for (var i = 0; i <document.markers.length; i++) {
+             document.markers[i].setMap(null);
+        }
+        document.markers = [];
+    }
+    
+    document.markLocation = function markLocation(addres,name) {
+       
+        document.geocoder.geocode( {'address': addres}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+                document.markers.push(new google.maps.Marker({
+                position: results[0].geometry.location,
+                map: document.map,
+                title: name
+            }));
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+    }
+    
+    document.goToLocation("Kraków, Al. Mickiewicza 30");
   }
 </script>
 </head>

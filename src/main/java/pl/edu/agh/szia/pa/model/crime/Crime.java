@@ -30,8 +30,11 @@ public class Crime {
     private String description;
     private int suspectCount;
 
-    public Crime(int id, Date commited, CrimeCategory category, Address location, String description, int suspectCount) {
-        this.id = id;
+    public Crime() {
+    }
+    
+    public Crime(Date commited, CrimeCategory category, Address location, String description, int suspectCount) {
+        //this.id = id;
         this.commited = commited;
         this.category = category;
         this.location = location;

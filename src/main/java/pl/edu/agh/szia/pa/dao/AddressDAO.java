@@ -32,18 +32,20 @@ public class AddressDAO {
     }
     
     public Address findAddress(String town,String street,String house) {
-        Session s = factory.getCurrentSession();
+        Session s = factory.openSession();
         Transaction t = s.getTransaction();
         t.begin();
         Map<String,String> crit = new HashMap<String, String>();
-        crit.put("town.name", town);
         crit.put("street",street);
         crit.put("house",house);
         
-        List<Address> l = s.createCriteria(Address.class)
+        List<Address> l =  s.createCriteria(Address.class,"a")
                            .add(Restrictions.allEq(crit))
+                           .createAlias("a.town", "t")
+                           .add(Restrictions.eq("t.name", town))
                            .list();
         t.commit();
+        s.close();
         
         if(l.size() > 0){
             return l.get(0);
@@ -52,7 +54,7 @@ public class AddressDAO {
     
     public void storeAddress(Address a){
         
-        Session s = factory.getCurrentSession();
+        Session s = factory.openSession();
         Transaction t = s.getTransaction();
         t.begin();
         
@@ -61,9 +63,12 @@ public class AddressDAO {
                             .list();
         if(towns.size() < 1) {
             s.persist(a.getTown());
+        } else {
+            a.setTown(towns.get(0));
         }
         
         s.persist(a);
+        s.close();
     }
     
 }
