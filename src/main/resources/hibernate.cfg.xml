@@ -32,6 +32,8 @@
 
         <mapping class="pl.edu.agh.szia.pa.model.address.Address"/>
         <mapping class="pl.edu.agh.szia.pa.model.address.Town"/>
+        <mapping class="pl.edu.agh.szia.pa.model.crime.CrimeCategory"/>
+        <mapping class="pl.edu.agh.szia.pa.model.crime.Crime"/>
 
     </session-factory>
 

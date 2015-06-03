@@ -5,7 +5,9 @@
  */
 package pl.edu.agh.szia.pa.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
@@ -23,6 +25,29 @@ public class AddressDAO {
 
     public AddressDAO(SessionFactory factory) {
         this.factory = factory;
+    }
+
+    public SessionFactory getFactory() {
+        return factory;
+    }
+    
+    public Address findAddress(String town,String street,String house) {
+        Session s = factory.getCurrentSession();
+        Transaction t = s.getTransaction();
+        t.begin();
+        Map<String,String> crit = new HashMap<String, String>();
+        crit.put("town.name", town);
+        crit.put("street",street);
+        crit.put("house",house);
+        
+        List<Address> l = s.createCriteria(Address.class)
+                           .add(Restrictions.allEq(crit))
+                           .list();
+        t.commit();
+        
+        if(l.size() > 0){
+            return l.get(0);
+        } else return null;
     }
     
     public void storeAddress(Address a){
