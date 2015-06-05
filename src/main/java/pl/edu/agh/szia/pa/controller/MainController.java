@@ -27,7 +27,7 @@ import javafx.scene.web.WebView;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
-import pl.edu.agh.szia.pa.model.address.Address;
+import pl.edu.agh.szia.pa.model.common.Address;
 import pl.edu.agh.szia.pa.model.crime.Crime;
 
 /**

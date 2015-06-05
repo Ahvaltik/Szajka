@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import pl.edu.agh.szia.pa.model.address.Address;
+import pl.edu.agh.szia.pa.model.common.Address;
 
 /**
  *

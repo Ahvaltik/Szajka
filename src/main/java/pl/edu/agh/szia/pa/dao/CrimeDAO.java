@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
-import pl.edu.agh.szia.pa.model.address.Address;
+import pl.edu.agh.szia.pa.model.common.Address;
 import pl.edu.agh.szia.pa.model.crime.Crime;
 import pl.edu.agh.szia.pa.model.crime.CrimeCategory;
 

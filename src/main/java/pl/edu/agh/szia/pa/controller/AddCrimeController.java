@@ -20,8 +20,8 @@ import javafx.util.StringConverter;
 import org.hibernate.classic.Session;
 import pl.edu.agh.szia.pa.dao.AddressDAO;
 import pl.edu.agh.szia.pa.dao.CrimeDAO;
-import pl.edu.agh.szia.pa.model.address.Address;
-import pl.edu.agh.szia.pa.model.address.Town;
+import pl.edu.agh.szia.pa.model.common.Address;
+import pl.edu.agh.szia.pa.model.common.Town;
 import pl.edu.agh.szia.pa.model.crime.Crime;
 import pl.edu.agh.szia.pa.model.crime.CrimeCategory;
 

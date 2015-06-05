@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.edu.agh.szia.pa.model.address;
+package pl.edu.agh.szia.pa.model.common;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
