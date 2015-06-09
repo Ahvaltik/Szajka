@@ -52,9 +52,9 @@ public class MainController implements Initializable {
     public SessionFactory getFactory() {
         return factory;
     }
-    
-   
-    
+
+
+
     public void registerCrime(ActionEvent ae) {
         
         CommonDAO common = new CommonDAO(factory);
@@ -113,10 +113,32 @@ public class MainController implements Initializable {
         
         TabbedController ac = (TabbedController) loader.getController();
         ac.setMainController(this);
-        
+
         tabPane.getTabs().add(t);
     }
-    
+
+    public void addPerson(ActionEvent ae) {
+
+        Tab t = new Tab("Dodanie osoby");
+        t.setClosable(true);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddPersonView.fxml"));
+        try{
+            t.setContent(loader.load());
+        }catch(IOException e){
+            t.setContent(new Label(e.getMessage()));
+        }
+
+        AddPersonController ap = (AddPersonController) loader.getController();
+        ap.setMainController(this);
+
+        tabPane.getTabs().add(t);
+    }
+
+    public void showPeople(){
+        //TODO
+    }
+
     public void showCrimes(ActionEvent ae) {
         Tab t = new Tab("Przestępstwa");
         t.setClosable(true);

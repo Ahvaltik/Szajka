@@ -41,7 +41,12 @@
             <MenuItem mnemonicParsing="false" text="Zgłoś" onAction="#reportCrime" />
           </items>
         </Menu>
-        
+        <Menu mnemonicParsing="false" text="Osoby">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Przegladaj" onAction="#showPeople" />
+                <MenuItem mnemonicParsing="false" text="Dodaj" onAction="#addPerson" />
+            </items>
+        </Menu>
       </menus>
     </MenuBar>
   </top>
