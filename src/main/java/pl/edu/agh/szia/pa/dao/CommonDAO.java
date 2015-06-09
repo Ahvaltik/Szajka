@@ -19,17 +19,34 @@ import pl.edu.agh.szia.pa.model.common.Town;
  *
  * @author uriel
  */
-public class AddressDAO {
+public class CommonDAO {
     
     private SessionFactory factory;
 
-    public AddressDAO(SessionFactory factory) {
+    public CommonDAO(SessionFactory factory) {
         this.factory = factory;
     }
 
     public SessionFactory getFactory() {
         return factory;
     }
+    
+    private Town getTown(Session s,String name) {
+        
+        List<Town> towns = s.createCriteria(Town.class)
+                            .add(Restrictions.eq("name", name))
+                            .list();
+        
+        if(towns.size() < 1) {
+            Town t = new Town(name);
+            s.persist(t);
+            return t;
+        } else {
+            return towns.get(0);
+        }
+    }
+    
+    
     
     public Address findAddress(String town,String street,String house) {
         Session s = factory.openSession();
@@ -52,22 +69,12 @@ public class AddressDAO {
         } else return null;
     }
     
-    public void storeAddress(Address a){
-        
+    public void storeAddress(Address a) {
         Session s = factory.openSession();
         Transaction t = s.getTransaction();
         t.begin();
-        
-        List<Town> towns = s.createCriteria(Town.class)
-                            .add(Restrictions.eq("name", a.getTown().getName()))
-                            .list();
-        if(towns.size() < 1) {
-            s.persist(a.getTown());
-        } else {
-            a.setTown(towns.get(0));
-        }
-        
         s.persist(a);
+        t.commit();
         s.close();
     }
     

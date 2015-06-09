@@ -7,9 +7,7 @@ package pl.edu.agh.szia.pa.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -21,14 +19,14 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
+import pl.edu.agh.szia.pa.dao.CommonDAO;
 import pl.edu.agh.szia.pa.model.common.Address;
-import pl.edu.agh.szia.pa.model.crime.Crime;
+import pl.edu.agh.szia.pa.model.crime.CrimeReport;
 
 /**
  *
@@ -59,6 +57,14 @@ public class MainController implements Initializable {
     
     public void registerCrime(ActionEvent ae) {
         
+        CommonDAO common = new CommonDAO(factory);
+        
+        
+        
+       // common.storeAddress(new Address(new Town("Kraków"),"Czarnowiejska","5"));
+        
+        Address a = common.findAddress("Kraków", "Czarnowiejska", "5");
+        
 //        CrimeDAO cdao = new CrimeDAO(new AddressDAO(factory));
 //     
 //        Crime c = new Crime(new Date(System.currentTimeMillis()),
@@ -86,17 +92,26 @@ public class MainController implements Initializable {
 //        
 //        s.close();
         
-        Tab t = new Tab("Rejestracja Przestępstwa");
+        loadView("AddCrimeView","Rejestracja Przestępswa");
+    }
+    
+    public void reportCrime(ActionEvent ae) {
+        loadView("AddCrimeReportView", "Zgłoszenie Przestępswa");
+    }
+    
+    protected void loadView(String vn,String tn) {
+        Tab t = new Tab(tn);
         t.setClosable(true);
+       
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddCrimeView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/"+vn+".fxml"));
         try{
             t.setContent(loader.load());
-        }catch(IOException e){
+        }catch(Exception e){
             t.setContent(new Label(e.getMessage()));
         }
         
-        AddCrimeController ac = (AddCrimeController) loader.getController();
+        TabbedController ac = (TabbedController) loader.getController();
         ac.setMainController(this);
         
         tabPane.getTabs().add(t);
@@ -107,45 +122,45 @@ public class MainController implements Initializable {
         t.setClosable(true);
        
         Session s = factory.openSession();
-        final TableView<Crime> tv = new TableView<>(FXCollections.observableArrayList(s.createCriteria(Crime.class).list()));
+        final TableView<CrimeReport> tv = new TableView<>(FXCollections.observableArrayList(s.createCriteria(CrimeReport.class).list()));
         s.close();
         
         t.setOnSelectionChanged((e)->{
            if(t.isSelected()){
                Session se = factory.openSession();
-               tv.setItems(FXCollections.observableArrayList(se.createCriteria(Crime.class).list()));
+               tv.setItems(FXCollections.observableArrayList(se.createCriteria(CrimeReport.class).list()));
                se.close();
            }
         });
        
      
-        TableColumn<Crime,String> tc = new TableColumn<>("Popełniono");
-        tc.setCellValueFactory((TableColumn.CellDataFeatures<Crime, String> p) -> {
-            
-            return new SimpleObjectProperty<String>(new SimpleDateFormat("yyyy-mm-dd").format(p.getValue().getCommited()));
-        });
-        tv.getColumns().add(tc);
-        tc = new TableColumn<>("Kategoria");
-        tc.setCellValueFactory((TableColumn.CellDataFeatures<Crime, String> p)->{
-            return new SimpleObjectProperty<>(p.getValue().getCategory().getName());
-        });
-        tv.getColumns().add(tc);
-        tc = new TableColumn<>("Opis");
-        tc.setCellValueFactory((TableColumn.CellDataFeatures<Crime, String> p)->{
-            return new SimpleObjectProperty<>(p.getValue().getDescription());
-        });
-        tv.getColumns().add(tc);
-        tc = new TableColumn<>("W okolicy");
-        tc.setCellValueFactory((TableColumn.CellDataFeatures<Crime, String> p)->{
-            Address a = p.getValue().getLocation();
-            return new SimpleObjectProperty<>(a.getTown().getName()+", "+a.getStreet()+" "+a.getHouse());
-        });
-        tv.getColumns().add(tc);
-        tc = new TableColumn<>("Uczestników");
-        tc.setCellValueFactory((TableColumn.CellDataFeatures<Crime, String> p)->{
-            return new SimpleObjectProperty<>(p.getValue().getSuspectCount()+"");
-        });
-        tv.getColumns().add(tc);
+//        TableColumn<CrimeReport,String> tc = new TableColumn<>("Popełniono");
+//        tc.setCellValueFactory((TableColumn.CellDataFeatures<CrimeReport, String> p) -> {
+//            
+//            return new SimpleObjectProperty<String>(new SimpleDateFormat("yyyy-mm-dd").format(p.getValue().getCommited()));
+//        });
+//        tv.getColumns().add(tc);
+//        tc = new TableColumn<>("Kategoria");
+//        tc.setCellValueFactory((TableColumn.CellDataFeatures<CrimeReport, String> p)->{
+//            return new SimpleObjectProperty<>(p.getValue().getCategory().getName());
+//        });
+//        tv.getColumns().add(tc);
+//        tc = new TableColumn<>("Opis");
+//        tc.setCellValueFactory((TableColumn.CellDataFeatures<CrimeReport, String> p)->{
+//            return new SimpleObjectProperty<>(p.getValue().getDescription());
+//        });
+//        tv.getColumns().add(tc);
+//        tc = new TableColumn<>("W okolicy");
+//        tc.setCellValueFactory((TableColumn.CellDataFeatures<CrimeReport, String> p)->{
+//            Address a = p.getValue().getLocation();
+//            return new SimpleObjectProperty<>(a.getTown().getName()+", "+a.getStreet()+" "+a.getHouse());
+//        });
+//        tv.getColumns().add(tc);
+//        tc = new TableColumn<>("Uczestników");
+//        tc.setCellValueFactory((TableColumn.CellDataFeatures<CrimeReport, String> p)->{
+//            return new SimpleObjectProperty<>(p.getValue().getSuspectCount()+"");
+//        });
+//        tv.getColumns().add(tc);
         
          final WebView webView = new WebView();
         
@@ -159,7 +174,7 @@ public class MainController implements Initializable {
             @Override
             public void onChanged(ListChangeListener.Change change) {
                 webView.getEngine().executeScript("document.clearMarkers()");
-               for( Crime c : tv.getSelectionModel().getSelectedItems())
+               for( CrimeReport c : tv.getSelectionModel().getSelectedItems())
                {
                    Address a = c.getLocation();
                    String add = a.getTown().getName()+", "+a.getStreet()+" "+a.getHouse();

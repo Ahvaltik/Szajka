@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import pl.edu.agh.szia.pa.model.common.Address;
-import pl.edu.agh.szia.pa.model.crime.Crime;
+import pl.edu.agh.szia.pa.model.crime.CrimeReport;
 import pl.edu.agh.szia.pa.model.crime.CrimeCategory;
 
 /**
@@ -20,15 +20,16 @@ import pl.edu.agh.szia.pa.model.crime.CrimeCategory;
  */
 public class CrimeDAO {
     private SessionFactory factory;
-    private AddressDAO addressDAO;
+    private CommonDAO addressDAO;
 
-    public CrimeDAO(AddressDAO dao) {
+    public CrimeDAO(CommonDAO dao) {
         this.addressDAO = dao;
         this.factory = dao.getFactory();
     }
     
-    public void storeCrime(Crime c) {
+    public void storeCrime(CrimeReport c) {
         Session s = factory.openSession();
+        
         
         Address a = c.getLocation();
         if(a.getID() <= 0) {
@@ -41,22 +42,16 @@ public class CrimeDAO {
         Transaction t = s.getTransaction();
         t.begin();
         
-        if(c.getCategory().getId()<=0){
-            List<CrimeCategory> lcc = s.createCriteria(CrimeCategory.class)
-                                       .add(Restrictions.eq("name", c.getCategory().getName()))
-                                       .list();
-            
-            if(lcc.size() < 1) {
-                s.persist(c.getCategory());
-            } else {
-                c.setCategory(lcc.get(0));
-            }
-            
-        }
+        
+       
         
         s.persist(c);
         t.commit();
         s.close();
+        
+    }
+    
+    public void test(CrimeReport r) {
         
     }
     

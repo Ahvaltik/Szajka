@@ -30,8 +30,12 @@
         <property name="hbm2ddl.auto">create</property>
         <property name="hbm2ddl.import_files">import.sql</property>
 
-        <mapping class="pl.edu.agh.szia.pa.model.address.Address"/>
-        <mapping class="pl.edu.agh.szia.pa.model.address.Town"/>
+        <mapping class="pl.edu.agh.szia.pa.model.common.Address"/>
+        <mapping class="pl.edu.agh.szia.pa.model.common.Attribute"/>
+        <mapping class="pl.edu.agh.szia.pa.model.common.Town"/>
+        <mapping class="pl.edu.agh.szia.pa.model.criminals.Person"/>
+        <mapping class="pl.edu.agh.szia.pa.model.criminals.Aquaintance"/>
+        <mapping class="pl.edu.agh.szia.pa.model.crime.CrimeReport"/>
         <mapping class="pl.edu.agh.szia.pa.model.crime.CrimeCategory"/>
         <mapping class="pl.edu.agh.szia.pa.model.crime.Crime"/>
 

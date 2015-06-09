@@ -38,6 +38,7 @@
           <items>
             <MenuItem mnemonicParsing="false" text="Przeglądaj"  onAction="#showCrimes"  />
             <MenuItem mnemonicParsing="false" text="Zarejestruj" onAction="#registerCrime" />
+            <MenuItem mnemonicParsing="false" text="Zgłoś" onAction="#reportCrime" />
           </items>
         </Menu>
         

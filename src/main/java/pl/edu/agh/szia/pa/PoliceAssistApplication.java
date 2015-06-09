@@ -22,6 +22,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
+import pl.edu.agh.szia.pa.controller.AddCrimeReportController;
 import pl.edu.agh.szia.pa.model.common.Address;
 import pl.edu.agh.szia.pa.model.common.Town;
 
@@ -38,6 +39,8 @@ public class PoliceAssistApplication extends Application {
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
+        
+        AddCrimeReportController acr;
     }
    
     /**
