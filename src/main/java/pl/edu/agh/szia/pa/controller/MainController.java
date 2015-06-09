@@ -54,11 +54,11 @@ public class MainController implements Initializable {
     public SessionFactory getFactory() {
         return factory;
     }
-    
-   
-    
+
+
+
     public void registerCrime(ActionEvent ae) {
-        
+
 //        CrimeDAO cdao = new CrimeDAO(new AddressDAO(factory));
 //     
 //        Crime c = new Crime(new Date(System.currentTimeMillis()),
@@ -85,23 +85,45 @@ public class MainController implements Initializable {
 //        System.out.println(s.createCriteria(Crime.class).list());
 //        
 //        s.close();
-        
+
         Tab t = new Tab("Rejestracja Przestępstwa");
         t.setClosable(true);
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddCrimeView.fxml"));
         try{
             t.setContent(loader.load());
         }catch(IOException e){
             t.setContent(new Label(e.getMessage()));
         }
-        
+
         AddCrimeController ac = (AddCrimeController) loader.getController();
         ac.setMainController(this);
-        
+
         tabPane.getTabs().add(t);
     }
-    
+
+    public void addPerson(ActionEvent ae) {
+
+        Tab t = new Tab("Dodanie osoby");
+        t.setClosable(true);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddPersonView.fxml"));
+        try{
+            t.setContent(loader.load());
+        }catch(IOException e){
+            t.setContent(new Label(e.getMessage()));
+        }
+
+        AddPersonController ap = (AddPersonController) loader.getController();
+        ap.setMainController(this);
+
+        tabPane.getTabs().add(t);
+    }
+
+    public void showPeople(){
+        //TODO
+    }
+
     public void showCrimes(ActionEvent ae) {
         Tab t = new Tab("Przestępstwa");
         t.setClosable(true);
