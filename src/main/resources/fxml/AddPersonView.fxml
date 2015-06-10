@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import pl.edu.agh.szia.pa.control.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.collections.*?>
@@ -9,9 +10,9 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="pl.edu.agh.szia.pa.controller.AddCrimeController">
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.szia.pa.controller.AddPersonController">
   <children>
-    <Label text="Dodawanie osoby" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+    <Label text="Dodawanie osoby" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
       <font>
         <Font size="22.0" />
       </font>
@@ -19,40 +20,64 @@
         <Insets bottom="10.0" top="10.0" />
       </GridPane.margin>
     </Label>
-    <Label text="Imię:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-    <TextField fx:id="firstName" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-    <Label text="Nazwisko:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-    <TextField fx:id="lastName"prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-    <Button fx:id="save" onAction="#save"  mnemonicParsing="false" text="Zapisz" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.rowSpan="1" GridPane.valignment="CENTER" />
-    <Label text="Ulica:" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-    <TextField fx:id="street" prefWidth="250.0" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="3" />
-    <Label text="Dom" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-    <TextField fx:id="house" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-    <Label text="Miasto:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-    <ComboBox fx:id="town" editable="true" prefWidth="150.0" minWidth="100.0"  GridPane.columnIndex="3" GridPane.rowIndex="3">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
-        </FXCollections>
-      </items>
-    </ComboBox>
-    <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+    <Label text="PESEL:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin></Label>
+    <TextField fx:id="firstName" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <Label text="Nazwisko:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+    <TextField fx:id="pesel" prefWidth="80.0" text="90080111031" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="5.0" />
+         </GridPane.margin></TextField>
+    <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="Zapisz" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.rowSpan="1" GridPane.valignment="CENTER" />
+    <Label text="Nazwisko:" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></Label>
+    <TextField fx:id="firstName" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="3" />
+    <Label text="Adres zamieszkania:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets bottom="15.0" top="15.0" />
+         </GridPane.margin></Label>
+    <TextField fx:id="lastName" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+    <Label text="Imie:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+      <Label text="Data Urodzenia:" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin>
+      </Label>
+      <DatePicker fx:id="birthday" GridPane.columnIndex="4" GridPane.rowIndex="2">
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets bottom="5.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <AddressControl fx:id="address" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="5" />
   </children>
   <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="-1.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+    <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+      <ColumnConstraints />
+      <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" vgrow="NEVER" />
+    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
   </rowConstraints>
 </GridPane>

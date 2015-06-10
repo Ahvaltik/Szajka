@@ -9,8 +9,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import pl.edu.agh.szia.pa.model.common.Address;
@@ -55,10 +55,45 @@ public class AddressControl extends Control {
         house.set(n);
     }
  
-    private ObjectProperty<Address> address;
-
+    private ObjectProperty<Address> address = new SimpleObjectProperty<>();
+    public Address getAddress() {
+        return new Address(town.getValue(),street.get(),house.get());
+    }
+    public void setAddress(Address a) {
+        address.set(a);
+    }
+    
+    private ObservableList<Town> availableTowns = FXCollections.observableArrayList();
+    public ObservableList<Town> getAvailableTowns() {
+        return availableTowns;
+    }
+    
+    
     public AddressControl() {
-        
+        town.addListener((ov,ot,nt)->{
+            Address a = address.get();
+            if(a==null) {
+                a = new Address(null, null, null);
+            }
+            a.setTown(nt);
+            address.set(a);
+        });
+        street.addListener((ov,os,ns)->{
+            Address a = address.get();
+            if(a==null) {
+                a = new Address(null, null, null);
+            }
+            a.setStreet(ns);
+            address.set(a);
+        });
+        house.addListener((ov,oh,nh)->{
+             Address a = address.get();
+            if(a==null) {
+                a = new Address(null, null, null);
+            }
+            a.setHouse(nh);
+            address.set(a);
+        });
     }
 
     @Override

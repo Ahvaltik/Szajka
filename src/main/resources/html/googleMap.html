@@ -66,7 +66,17 @@
         }
         document.markers = [];
     }
-    
+    document.mark = function mark(lng,lat,name,color) {
+        document.markers.push(new google.maps.Marker({
+                position: {"lat": lat,"lng": lng},
+                map: document.map,
+                title: name,
+                icon: "http://www.googlemapsmarkers.com/v1/"+color+"/"
+            }));
+    }
+    document.centerMap = function centerMap(lng,lat) {
+        document.map.setCenter({"lat": lat,"lng": lng});
+    }
     document.markLocation = function markLocation(addres,name) {
        
         document.geocoder.geocode( {'address': addres}, function(results, status) {
@@ -74,7 +84,8 @@
                 document.markers.push(new google.maps.Marker({
                 position: results[0].geometry.location,
                 map: document.map,
-                title: name
+                title: name,
+                image: "http://www.googlemapsmarkers.com/v1/009900/"
             }));
           } else {
             alert("Geocode was not successful for the following reason: " + status);

@@ -31,6 +31,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="Plik">
           <items>
+            <MenuItem mnemonicParsing="false" text="Zamknij zakładkę" onAction="#closeTab"  />  
             <MenuItem mnemonicParsing="false" text="Zamknij" onAction="#close"  />
           </items>
         </Menu>
@@ -45,6 +46,7 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="Przegladaj" onAction="#showPeople" />
                 <MenuItem mnemonicParsing="false" text="Dodaj" onAction="#addPerson" />
+                <MenuItem mnemonicParsing="false" text="Znajomosci" onAction="#addAquaintance" />
             </items>
         </Menu>
       </menus>

@@ -24,6 +24,7 @@ public class Aquaintance {
     private int id;
     private Person from;
     private Person to;
+    private double level;
 
     public Aquaintance() {
     }
@@ -65,5 +66,16 @@ public class Aquaintance {
     public void setTo(Person to) {
         this.to = to;
     }
-//</editor-fold>
+   //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Level">
+    @Column(name="FLD_LEVEL")
+    public double getLevel() {
+        return level;
+    }
+    
+    public void setLevel(double level) {
+        this.level = level;
+    }
+   //</editor-fold>
 } 

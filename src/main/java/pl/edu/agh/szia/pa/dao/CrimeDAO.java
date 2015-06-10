@@ -27,7 +27,7 @@ public class CrimeDAO {
         this.factory = dao.getFactory();
     }
     
-    public void storeCrime(CrimeReport c) {
+    public void storeCrime(CrimeReport c) throws Exception {
         Session s = factory.openSession();
         
         

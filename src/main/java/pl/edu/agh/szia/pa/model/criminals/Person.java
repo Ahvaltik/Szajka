@@ -5,6 +5,7 @@
  */
 package pl.edu.agh.szia.pa.model.criminals;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,9 +31,9 @@ import pl.edu.agh.szia.pa.model.common.Attribute;
 public class Person {
     private int id;
     private String PESEL;
+    private Date birthday;
     private String lastName;
     private String firstName;
-    private String secondName;
     private Address address;
     
     private List<Aquaintance> aquaintances;
@@ -42,14 +43,14 @@ public class Person {
     }
 
     public Person(String PESEL, 
+                  Date birthday,
                   String lastName, 
                   String firstName, 
-                  String secondName, 
                   Address address) {
         this.PESEL = PESEL;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.birthday = birthday;
         this.address = address;
     }
 
@@ -77,6 +78,19 @@ public class Person {
         this.PESEL = PESEL;
     }
 //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Birthday">
+    @Column(name="FLD_BIRTHDAY",
+            length = 20,
+            nullable = true,
+            unique = false)
+    public Date getSecondName() {
+        return birthday;
+    }
+    public void setSecondName(Date birthday) {
+        this.birthday = birthday;
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="LastName">
     @Column(name="FLD_LAST_NAME",
@@ -104,19 +118,6 @@ public class Person {
         this.firstName = firstName;
     }
    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="SecondName">
-    @Column(name="FLD_SECOND_NAME",
-            length = 20,
-            nullable = true,
-            unique = false)
-    public String getSecondName() {
-        return secondName;
-    }
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-//</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Address">
     @ManyToOne(fetch = FetchType.EAGER)
@@ -154,6 +155,11 @@ public class Person {
 //</editor-fold>
     public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return getLastName()+" "+getFirstName();
     }
     
     

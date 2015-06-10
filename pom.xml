@@ -45,10 +45,11 @@
             <artifactId>javassist</artifactId>
             <version>3.19.0-GA</version>
         </dependency>
-
-
-
-
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20141113</version>
+        </dependency>
     </dependencies>
 
     <build>

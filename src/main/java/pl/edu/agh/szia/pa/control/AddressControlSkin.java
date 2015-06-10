@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.util.StringConverter;
+import pl.edu.agh.szia.pa.model.common.Town;
 
 /**
  *
@@ -29,7 +31,22 @@ public class AddressControlSkin extends GridPane implements Skin<AddressControl>
         l.setPadding(new Insets(0, 5, 0, 5));
         add(l, 0,0);
         
-        ComboBox c = new ComboBox();
+        ComboBox<Town> c = new ComboBox<>();
+        c.setEditable(true);
+        c.setConverter(new StringConverter<Town>() {
+            @Override
+            public String toString(Town t) {
+                if(t==null) return "";
+                return t.getName();
+            }
+
+            @Override
+            public Town fromString(String string) {
+                if(string==null) return null;
+                return new Town(string);
+            }
+        });
+        ac.townProperty().bind(c.getSelectionModel().selectedItemProperty());
         c.setPrefWidth(150);
         c.setMaxWidth(Double.MAX_VALUE);
         add(c, 1,0);
@@ -37,13 +54,16 @@ public class AddressControlSkin extends GridPane implements Skin<AddressControl>
         l = new Label("Ulica: ");
         l.setPadding(new Insets(0, 5, 0, 5));
         add(l,2,0);
-        add(new TextField(),3,0);
+        TextField t= new TextField();
+        ac.streetProperty().bindBidirectional(t.textProperty());
+        add(t,3,0);
         
         l = new Label("Numer: ");
         l.setPadding(new Insets(0, 5, 0, 5));
         add(l,4,0);
         TextField f = new TextField();
         f.setPrefWidth(50);
+        ac.houseProperty().bindBidirectional(f.textProperty());
         add(f,5,0);
     }
    

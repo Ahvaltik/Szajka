@@ -72,7 +72,7 @@ public class Address {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
+    //@Cascade(CascadeType.ALL)
     @JoinColumn(name = "FKF_TOWN",
                 nullable = false)
     public Town getTown() {
@@ -103,6 +103,11 @@ public class Address {
 
     public void setLongtitude(Double longtitude) {
         this.longtitude = longtitude;
+    }
+
+    @Override
+    public String toString() {
+        return town.getName()+", "+street+" "+house;
     }
     
     

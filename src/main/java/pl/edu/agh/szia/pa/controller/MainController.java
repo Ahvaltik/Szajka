@@ -5,28 +5,34 @@
  */
 package pl.edu.agh.szia.pa.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
 import pl.edu.agh.szia.pa.dao.CommonDAO;
+import pl.edu.agh.szia.pa.dao.PersonDAO;
 import pl.edu.agh.szia.pa.model.common.Address;
 import pl.edu.agh.szia.pa.model.crime.CrimeReport;
+import pl.edu.agh.szia.pa.model.criminals.Aquaintance;
+import pl.edu.agh.szia.pa.model.criminals.Person;
 
 /**
  *
@@ -108,6 +114,7 @@ public class MainController implements Initializable {
         try{
             t.setContent(loader.load());
         }catch(Exception e){
+            e.printStackTrace();
             t.setContent(new Label(e.getMessage()));
         }
         
@@ -119,24 +126,115 @@ public class MainController implements Initializable {
 
     public void addPerson(ActionEvent ae) {
 
-        Tab t = new Tab("Dodanie osoby");
-        t.setClosable(true);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddPersonView.fxml"));
-        try{
-            t.setContent(loader.load());
-        }catch(IOException e){
-            t.setContent(new Label(e.getMessage()));
-        }
-
-        AddPersonController ap = (AddPersonController) loader.getController();
-        ap.setMainController(this);
-
-        tabPane.getTabs().add(t);
+        loadView("AddPersonView", "Dodawanie osoby");
     }
 
+    public void addAquaintance(ActionEvent ae) {
+        loadView("PersonAquaintanceView", "Znajomości");
+    }
+    
     public void showPeople(){
-        //TODO
+        
+        Tab t = new Tab("Osoby");
+        
+        PersonDAO dao = new PersonDAO(new CommonDAO(factory));
+        
+        TableView<Person> tv = new TableView<Person>(FXCollections.observableArrayList(dao.listPersons()));
+        
+        TableColumn<Person,String> tc = new TableColumn<>("PESEL");
+        tc.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getPESEL());
+        });
+        tv.getColumns().add(tc);
+        
+        tc = new TableColumn<>("Nazwisko");
+        tc.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getLastName());
+        });
+        tv.getColumns().add(tc);
+        
+        tc = new TableColumn<>("Imie");
+        tc.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getFirstName());
+        });
+        tv.getColumns().add(tc);
+        
+        
+        tc = new TableColumn<>("Data Urodzenia");
+        tc.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getSecondName().toString());
+        });
+        tv.getColumns().add(tc);
+        
+        tc = new TableColumn<>("Adres");
+        tc.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getAddress().toString());
+        });
+        tv.getColumns().add(tc);
+        
+        t.setContent(tv);
+        
+        
+        
+        TableView<Aquaintance> t1 = new TableView<>();
+        
+       
+        
+        TableColumn<Aquaintance,String> tc1 = new TableColumn<>("Nazwisko");
+        tc1.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getTo().getLastName());
+        });
+        t1.getColumns().add(tc1);
+        
+        tc1 = new TableColumn<>("Imie");
+        tc1.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getTo().getFirstName());
+        });
+        t1.getColumns().add(tc1);
+        
+        tc1 = new TableColumn<>("Level");
+        tc1.setCellValueFactory((p)->{
+            return new SimpleStringProperty(""+p.getValue().getLevel());
+        });
+        t1.getColumns().add(tc1);
+        
+        tc1 = new TableColumn<>("Nazwisko");
+        tc1.setCellValueFactory((p)->{
+            return new SimpleStringProperty(p.getValue().getFrom().getLastName());
+        });
+        t1.getColumns().add(tc1);
+        
+        SplitPane sp = new SplitPane(tv,t1);
+        sp.setOrientation(Orientation.VERTICAL);
+        
+        final WebView webView = new WebView();
+        
+        String path = getClass().getResource("/html/googleMap.html").toString();
+        System.out.println(path);
+        webView.getEngine().load(path);
+        
+         tv.getSelectionModel().selectedItemProperty().addListener((ov,op,np)->{
+            t1.getItems().clear();
+            t1.getItems().addAll(dao.listAquaintance(np));
+            Address a = np.getAddress();
+            
+            webView.getEngine().executeScript("document.clearMarkers();");
+            webView.getEngine().executeScript(String.format("document.centerMap(%s,%s);",a.getLongtitude(),a.getLatitude()));
+            webView.getEngine().executeScript(String.format("document.mark(%s,%s,\"%s\",\"%s\");",a.getLongtitude(),a.getLatitude(),"Mark","990000"));
+            
+            for(Aquaintance aq : t1.getItems()) {
+                Address ad = aq.getTo().getAddress();
+                webView.getEngine().executeScript(String.format("document.mark(%s,%s,\"%s\",\"%s\");",ad.getLongtitude(),ad.getLatitude(),aq.getTo().toString(),"009900"));
+            
+            }
+            
+        });
+        
+        SplitPane root = new SplitPane(sp,webView);
+        
+        t.setContent(root);
+        tabPane.getTabs().add(t);
+        
     }
 
     public void showCrimes(ActionEvent ae) {
@@ -184,7 +282,7 @@ public class MainController implements Initializable {
 //        });
 //        tv.getColumns().add(tc);
         
-         final WebView webView = new WebView();
+        final WebView webView = new WebView();
         
         String path = getClass().getResource("/html/googleMap.html").toString();
         System.out.println(path);
@@ -213,6 +311,13 @@ public class MainController implements Initializable {
    
     public void close(ActionEvent ae){
         System.exit(0);
+    }
+    
+    public void closeTab(ActionEvent ae) {
+        Tab t = tabPane.getSelectionModel().getSelectedItem();
+        if(t!=null){
+            tabPane.getTabs().remove(t);
+        }
     }
     
 }

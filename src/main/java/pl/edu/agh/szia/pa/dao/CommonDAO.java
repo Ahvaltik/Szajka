@@ -5,6 +5,11 @@
  */
 package pl.edu.agh.szia.pa.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.json.JSONObject;
 import pl.edu.agh.szia.pa.model.common.Address;
 import pl.edu.agh.szia.pa.model.common.Town;
 
@@ -29,6 +35,15 @@ public class CommonDAO {
 
     public SessionFactory getFactory() {
         return factory;
+    }
+    
+    public List<Town> listTowns(){
+        Session s = factory.openSession();
+        s.beginTransaction();
+        List<Town> l = s.createCriteria(Town.class).list();
+        s.getTransaction().commit();
+        s.close();
+        return l;
     }
     
     private Town getTown(Session s,String name) {
@@ -69,13 +84,58 @@ public class CommonDAO {
         } else return null;
     }
     
-    public void storeAddress(Address a) {
+    public void storeAddress(Address a) throws Exception {
+        
+        System.out.println(a);
+        
         Session s = factory.openSession();
         Transaction t = s.getTransaction();
+        
+        Town to = getTown(s, a.getTown().getName());
+        a.setTown(to);
+        
+        geocodeAddress(a);
+        
         t.begin();
         s.persist(a);
         t.commit();
         s.close();
+    }
+    
+    public void geocodeAddress(Address a) throws Exception {
+        
+        StringBuffer sb = new StringBuffer("http://maps.googleapis.com/maps/api/geocode/json?address=");
+        sb.append(URLEncoder.encode(a.toString(), "UTF-8"));
+        URL url = new URL(sb.toString());
+        
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String line;
+        StringBuffer result = new StringBuffer();
+        
+        while(true) {
+            line = br.readLine();
+            if(line==null) break;
+            result.append(line);
+        }
+        
+        br.close();
+        
+        
+        JSONObject obj = new JSONObject(result.toString());
+        
+        obj = obj.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+        
+        a.setLongtitude(obj.getDouble("lng"));
+        a.setLatitude(obj.getDouble("lat"));
+        
+        if(http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            
+        } else {
+            throw new IllegalStateException(http.getResponseMessage());
+        }
+        
     }
     
 }

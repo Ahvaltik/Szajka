@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import pl.edu.agh.szia.pa.control.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.szia.pa.controller.PersonAuqaintanceController">
+  <children>
+    <Label text="Znajomosci:" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+      <font>
+        <Font size="22.0" />
+      </font>
+      <GridPane.margin>
+        <Insets bottom="10.0" top="10.0" />
+      </GridPane.margin>
+    </Label>
+    <Label text="Osoba" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin></Label>
+    <Button mnemonicParsing="false" onAction="#addAquaintance" text="Dodaj" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="1" GridPane.valignment="CENTER" />
+    <Label text="zna: " GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding></Label>
+    <Label text="Zażyłość: " GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Label>
+      <Label GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
+         </GridPane.margin>
+      </Label>
+      <ComboBox fx:id="toPerson" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <ComboBox fx:id="fromPerson" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="level" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+      <TableView fx:id="aquaintanceTable" GridPane.columnIndex="1" GridPane.columnSpan="6" GridPane.rowIndex="3">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </TableView>
+  </children>
+  <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+    <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+      <ColumnConstraints />
+      <ColumnConstraints />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" vgrow="NEVER" />
+  </rowConstraints>
+</GridPane>
